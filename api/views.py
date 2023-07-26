@@ -37,12 +37,13 @@ def updateBuyer(request, pk):
 
 # @api_view(['POST'])
 def createBuyer(request, pk):
-    
     data = request.data
+
+    print(data)
 
     buyer = Buyer.objects.create(
         name = data['name'],
-        price = data['price']
+        moneyPaid = data['moneyPaid']
     )
 
     serializer = BuyerSerializer(buyer, many=False)
@@ -87,7 +88,6 @@ def updatePurchase(request, pk):
 
 # @api_view(['POST'])
 def createPurchase(request, pk):
-    
     data = request.data
 
     purchase = Purchase.objects.create(
