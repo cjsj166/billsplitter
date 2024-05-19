@@ -11,6 +11,8 @@ def getBuyers(request):
     buyers = Buyer.objects.all()
     serializer = BuyerSerializer(buyers, many=True)
     
+    print(serializer.data)
+
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -21,6 +23,22 @@ def getPurchases(request):
     return Response(serializer.data)
 
 #--------------------------Buyers--------------------------
+@api_view(['PUT'])
+def updatePurchaseRelation(request, pk):
+    print("----------updatePurchaseRelation----------")
+    buyer = Buyer.objects.get(id=pk)
+
+    data = request.data
+    print(data)
+
+    buyer.purchases.set(data['purchases'])
+    buyer.save()
+
+    print(buyer.purchases.all())
+
+    serializer = BuyerSerializer(buyer, many=False)
+
+    return Response(serializer.data)
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def updateBuyer(request, pk):
@@ -72,6 +90,10 @@ def deleteBuyer(request, pk):
     return Response('Buyer was deleted')
 
 #--------------------------Purchase--------------------------
+
+
+
+
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def updatePurchase(request, pk):
